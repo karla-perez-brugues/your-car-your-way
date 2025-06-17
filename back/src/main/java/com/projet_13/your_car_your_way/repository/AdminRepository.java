@@ -1,0 +1,9 @@
+package com.projet_13.your_car_your_way.repository;
+
+import com.projet_13.your_car_your_way.model.Admin;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface AdminRepository extends JpaRepository<Admin, Long> {
+}
