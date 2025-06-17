@@ -18,27 +18,29 @@ public class Message {
     @Size(max = 2500)
     private String content;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "sender_id")
-    @NotNull
     private User sender;
 
     @NotNull
-    @Size(max = 50)
-    private String status;
-
     @ManyToOne
-    @JoinColumn(name = "parent_id")
-    @Null
-    private Message parent;
+    @JoinColumn(name = "conversation_id")
+    private Conversation conversation;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    public Message() {
+    }
+
+    public Message(String content, User sender, Conversation conversation, LocalDateTime createdAt) {
+        this.content = content;
+        this.sender = sender;
+        this.conversation = conversation;
+        this.createdAt = createdAt;
+    }
 
     public Long getId() {
         return id;
@@ -64,20 +66,12 @@ public class Message {
         this.sender = sender;
     }
 
-    public String getStatus() {
-        return status;
+    public Conversation getConversation() {
+        return conversation;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Message getParent() {
-        return parent;
-    }
-
-    public void setParent(Message parent) {
-        this.parent = parent;
+    public void setConversation(Conversation conversation) {
+        this.conversation = conversation;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -86,13 +80,5 @@ public class Message {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }
