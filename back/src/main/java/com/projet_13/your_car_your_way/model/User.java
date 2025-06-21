@@ -1,5 +1,7 @@
 package com.projet_13.your_car_your_way.model;
 
+import com.projet_13.your_car_your_way.enums.UserType;
+import com.projet_13.your_car_your_way.service.MessageService;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -46,6 +48,14 @@ public abstract class User implements UserDetails {
 
     @NotNull
     private boolean admin;
+
+    @NotNull
+    @Column(name = "user_type")
+    @Enumerated(EnumType.STRING)
+    private UserType userType;
+
+    @OneToMany(mappedBy = "sender")
+    private List<Message> messages;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -110,6 +120,18 @@ public abstract class User implements UserDetails {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
     }
 
     public LocalDateTime getCreatedAt() {

@@ -4,6 +4,8 @@ import com.projet_13.your_car_your_way.enums.ConversationStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.List;
+
 @Entity
 @Table(name = "CONVERSATIONS")
 public class Conversation {
@@ -13,19 +15,22 @@ public class Conversation {
 
     @NotNull
     @OneToOne
-    @JoinColumn(name = "client_id")
-    private Client client;
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    private Customer customer;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     private ConversationStatus status;
 
+    @OneToMany(mappedBy = "conversation")
+    private List<Message> messages;
+
     public Conversation() {
     }
 
-    public Conversation(Client client, ConversationStatus status) {
-        this.client = client;
-        this.status = status;
+    public Conversation(Customer customer) {
+        this.customer = customer;
+        this.status = ConversationStatus.PENDING;
     }
 
     public Long getId() {
@@ -36,12 +41,12 @@ public class Conversation {
         this.id = id;
     }
 
-    public Client getClient() {
-        return client;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public ConversationStatus getStatus() {
@@ -50,5 +55,13 @@ public class Conversation {
 
     public void setStatus(ConversationStatus status) {
         this.status = status;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
     }
 }

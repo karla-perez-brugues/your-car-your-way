@@ -35,11 +35,10 @@ public class Message {
     public Message() {
     }
 
-    public Message(String content, User sender, Conversation conversation, LocalDateTime createdAt) {
+    public Message(String content, User sender, Conversation conversation) {
         this.content = content;
         this.sender = sender;
         this.conversation = conversation;
-        this.createdAt = createdAt;
     }
 
     public Long getId() {
