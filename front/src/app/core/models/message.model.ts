@@ -1,4 +1,4 @@
-export interface Message {
+export interface MessageModel {
   id: number;
   conversationId: number;
   content: string;
