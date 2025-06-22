@@ -1,11 +1,15 @@
 package com.projet_13.your_car_your_way.controller;
 
+import com.projet_13.your_car_your_way.dto.ConversationDto;
 import com.projet_13.your_car_your_way.dto.MessageDto;
+import com.projet_13.your_car_your_way.model.Conversation;
 import com.projet_13.your_car_your_way.model.Message;
 import com.projet_13.your_car_your_way.model.User;
+import com.projet_13.your_car_your_way.service.ConversationService;
 import com.projet_13.your_car_your_way.service.MessageService;
 import jakarta.validation.Valid;
 import org.apache.coyote.BadRequestException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,18 +22,18 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class MessageController {
 
-    private final MessageService messageService;
+    @Autowired
+    private MessageService messageService;
 
-    public MessageController(MessageService messageService) {
-        this.messageService = messageService;
-    }
+    @Autowired
+    private ConversationService conversationService;
 
     @PostMapping("")
-    public ResponseEntity<MessageDto> reply(@Valid @RequestBody MessageDto messageDto, Principal principal) throws NotFoundException {
-        Message message = messageService.reply(messageDto, principal.getName());
-        MessageDto flushedMessageDto = messageService.entityToDto(message);
+    public ResponseEntity<ConversationDto> reply(@Valid @RequestBody MessageDto messageDto, Principal principal) throws NotFoundException {
+        Conversation conversation = conversationService.reply(messageDto, principal.getName());
+        ConversationDto conversationDto = conversationService.entityToDto(conversation);
 
-        return ResponseEntity.ok(flushedMessageDto);
+        return ResponseEntity.ok(conversationDto);
     }
 
     @GetMapping("/{conversationId}")
