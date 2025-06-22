@@ -1,7 +1,6 @@
 package com.projet_13.your_car_your_way.model;
 
 import com.projet_13.your_car_your_way.enums.UserType;
-import com.projet_13.your_car_your_way.service.MessageService;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -47,12 +46,7 @@ public abstract class User implements UserDetails {
     private String password;
 
     @NotNull
-    private boolean admin;
-
-    @NotNull
-    @Column(name = "user_type")
-    @Enumerated(EnumType.STRING)
-    private UserType userType;
+    private Boolean admin;
 
     @OneToMany(mappedBy = "sender")
     private List<Message> messages;
@@ -122,8 +116,9 @@ public abstract class User implements UserDetails {
         this.admin = admin;
     }
 
+    // TODO: move to service ?
     public UserType getUserType() {
-        return userType;
+        return admin ? UserType.ADMIN : UserType.CUSTOMER;
     }
 
     public List<Message> getMessages() {
