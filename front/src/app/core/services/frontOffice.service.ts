@@ -12,7 +12,7 @@ export class FrontOfficeService {
 
   constructor(private httpClient: HttpClient) {}
 
-  public home(): Observable<Conversation> {
-    return this.httpClient.get<Conversation>(`${this.pathService}`);
+  public home(): Observable<Conversation|null> {
+    return this.httpClient.get<Conversation|null>(`${this.pathService}`);
   }
 }
