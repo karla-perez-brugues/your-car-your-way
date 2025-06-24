@@ -1,13 +1,17 @@
 import {Component, inject} from '@angular/core';
-import {FormBuilder, FormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LoginRequest} from '../../core/interfaces/loginRequest.interface';
 import {AuthService} from '../../core/services/auth.service';
-import {Router} from 'express';
+import {Router} from '@angular/router';
+import {SessionInformation} from '../../core/interfaces/sessionInformation.interface';
+import {User} from '../../core/models/user';
+import {SessionService} from '../../core/services/session.service';
 
 @Component({
   selector: 'app-login',
   imports: [
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
@@ -16,6 +20,7 @@ export class LoginComponent {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private authService = inject(AuthService);
+  private sessionService = inject(SessionService);
 
   public onError = false;
 
@@ -29,10 +34,21 @@ export class LoginComponent {
 
     if (this.form.valid) {
       this.authService.login(loginRequest).subscribe({
-        next: (response) => {
-          this.router.navigate(['/home']);
+        next: (sessionInformation: SessionInformation) => {
+          localStorage.setItem('token', sessionInformation.token);
+          this.authService.me().subscribe({
+            next: (user: User) => {
+              this.sessionService.logIn(user);
+              if (user.userType === 'ADMIN') {
+                this.router.navigate(['/back-office']);
+              } else {
+                this.router.navigate(['/front-office']);
+              }
+            },
+            error: () => this.onError = true,
+          });
         },
-        error: error => this.onError = true,
+        error: () => this.onError = true,
       });
     }
   }

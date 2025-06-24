@@ -8,12 +8,15 @@
     </div>
     <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
       <div class="card-body">
-        <form class="fieldset" (ngSubmit)="submit()">
+        <form class="fieldset" (ngSubmit)="submit()" [formGroup]="form">
           <label class="label">Email</label>
-          <input type="email" class="input" placeholder="Email" />
+          <input type="email" class="input" placeholder="Email" formControlName="email" />
           <label class="label">Mot de passe</label>
-          <input type="password" class="input" placeholder="Mot de passe" />
-          <button class="btn btn-neutral mt-4">Connexion</button>
+          <input type="password" class="input" placeholder="Mot de passe" formControlName="password" />
+          <button class="btn btn-neutral mt-4" type="submit" [disabled]="!form.valid">Connexion</button>
+          @if (onError) {
+            <p class="error">Une erreur s'est produite</p>
+          }
         </form>
       </div>
     </div>
