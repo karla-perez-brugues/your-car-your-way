@@ -18,6 +18,6 @@ export class ConversationService {
   }
 
   public create(message: Message): Observable<Conversation> {
-    return this.httpClient.post<Conversation>(`${this.pathService}}`, message);
+    return this.httpClient.post<Conversation>(`${this.pathService}`, message);
   }
 }

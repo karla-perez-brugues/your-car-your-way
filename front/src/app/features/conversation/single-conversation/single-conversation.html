@@ -1,28 +1,21 @@
 <div class="hero bg-base-200 min-h-screen">
   <div class="hero-content text-center">
     <div class="max-w-md">
-      <div class="card w-max bg-base-100 card-xl shadow-sm">
+      <h1 class="text-5xl font-bold">{{ title }}</h1>
+      <div class="card w-max bg-base-100 card-xl shadow-sm m-auto mt-5">
         <div class="card-body">
           <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" (click)="back()">✕</button>
           <div class="chat">
-            <div class="chat chat-start">
-              <div class="chat-bubble">
-                It's over Anakin, I have the high ground.
-              </div>
-            </div>
-            <div class="chat chat-end">
-              <div class="chat-bubble chat-bubble-secondary">You underestimate my power!</div>
-            </div>
-            @for (message of messages; track message.id) {
-              @if (message.senderType === 'ADMIN') {
-                <div class="chat chat-start">
-                  <div class="chat-bubble">
+            @for (message of messages$ | async; track message.id) {
+              @if ((message.senderType === 'ADMIN' && user.userType === 'ADMIN') || (message.senderType === 'CUSTOMER' && user.userType === 'CUSTOMER')) {
+                <div class="chat chat-end">
+                  <div class="chat-bubble chat-bubble-secondary">
                     {{ message.content }}
                   </div>
                 </div>
               } @else {
-                <div class="chat chat-end">
-                  <div class="chat-bubble chat-bubble-secondary">
+                <div class="chat chat-start">
+                  <div class="chat-bubble">
                     {{ message.content }}
                   </div>
                 </div>
