@@ -19,8 +19,13 @@ import { Injectable } from "@angular/core";
 
 export const authenticationInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
   const userToken = localStorage.getItem('token');
-  const modifiedReq = req. clone({
-    headers: req.headers.set('Authorization', `Bearer ${userToken}`),
-  });
-  return next(modifiedReq);
+  if (userToken) {
+    req = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    });
+  }
+
+  return next(req);
 };
