@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {Conversation} from '../../core/models/conversation';
@@ -17,21 +17,8 @@ import {AsyncPipe} from '@angular/common';
   standalone: true,
   styleUrl: './front-office.css'
 })
-export class FrontOffice implements OnInit {
+export class FrontOffice {
   private frontOfficeService: FrontOfficeService = inject(FrontOfficeService)
 
-  // public conversation: Conversation | null | undefined;
   public conversation$: Observable<Conversation|null> = this.frontOfficeService.home();
-
-  ngOnInit() {
-    // this.fetchConversation();
-  }
-
-  // private fetchConversation() {
-  //   this.frontOfficeService.home().subscribe({
-  //     next: (conversation) => {
-  //       this.conversation = conversation;
-  //     }
-  //   });
-  // }
 }

@@ -47,8 +47,7 @@ export class WebSocketService {
 
   sendMessage(message: Message): void {
     if (this.socket && this.token) {
-      this.socket.emit('sendMessage', message); // Envoyer un message au serveur
-      console.log('message sent');
+      this.socket.emit('sendMessage', message);
     } else {
       console.error('Missing JWT token');
     }

@@ -91,31 +91,24 @@ export class SingleConversation implements OnInit, OnDestroy {
   }
 
   private startWebSocket(): void {
-    // Si une connexion WebSocket existe déjà, on la déconnecte pour réinitialiser.
     if (this.webSocketService.socket?.connected) {
       this.webSocketService.disconnect();
     }
 
-    // Initialisation de la connexion WebSocket.
     this.webSocketService.initializeWebSocketConnection();
 
-    // Gestionnaire d'événement pour la connexion établie.
     this.webSocketService.socket?.on('connect', () => {
-      console.log('WebSocket connection established'); // Confirmation dans la console.
+      console.log('Connected to WebSocket');
     });
 
-    // Gestionnaire d'événement pour les messages entrants.
     this.webSocketService.socket?.on('chatMessage', (message: Message) => {
-      // On utilise NgZone pour informer Angular du changement et forcer la mise à jour de la vue.
       this.ngZone.run(() => {
         this.messagesBehaviorSubject.next([...this.messages, message]);
-        console.log('Message added to list inside Angular zone:', message);
       });
     });
 
-    // Gestionnaire d'événement pour les erreurs de connexion.
     this.webSocketService.socket?.on('connect_error', (error: any) => {
-      console.error('Failed to connect to WebSocket server:', error); // Affichage de l'erreur.
+      console.error('Failed to connect to WebSocket:', error);
     });
   }
 }
