@@ -1,8 +1,8 @@
 import {Component, inject, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {AuthService} from './core/services/auth.service';
-import {User} from './core/models/user';
 import {SessionService} from './core/services/session.service';
+import {User} from './core/models/user';
 
 @Component({
   selector: 'app-root',
@@ -28,5 +28,4 @@ export class App implements OnInit {
       }
     })
   }
-
 }

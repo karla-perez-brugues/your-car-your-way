@@ -1,12 +1,14 @@
 import { Routes } from '@angular/router';
-import {FrontOffice} from './features/front-office/front-office';
 import {LoginComponent} from './features/login/login.component';
+import {FrontOffice} from './features/front-office/front-office';
+import {ConversationForm} from './features/conversation/conversation-form/conversation-form';
+import {SingleConversation} from './features/conversation/single-conversation/single-conversation';
 import {BackOffice} from './features/back-office/back-office';
-import {SingleConversation} from './features/single-conversation/single-conversation';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'front-office', component: FrontOffice },
+  { path: 'new-conversation', component: ConversationForm },
   { path: 'back-office', component: BackOffice },
-  { path: 'single-conversation', component: SingleConversation }, // fixme: add conversation id to path
+  { path: 'single-conversation/:id', component: SingleConversation },
 ];
