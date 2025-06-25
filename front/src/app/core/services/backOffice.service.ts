@@ -8,7 +8,7 @@ import {Observable} from 'rxjs';
 })
 export class BackOfficeService {
 
-  private pathService = '/api/back-office-home';
+  private pathService = '/api/back-office';
 
   constructor(private httpClient: HttpClient) {}
 

@@ -1,44 +1,16 @@
 <div class="hero bg-base-200 min-h-screen">
   <div class="hero-content text-center">
     <div class="max-w-md">
-      <h1 class="text-5xl font-bold">Support Client</h1>
+      <h1 class="text-5xl font-bold">Back Office</h1>
 
           <ul class="list bg-base-100 rounded-box shadow-md mt-5 text-left">
-            <li class="list-row">
-              <div>
-                <a class="text-xs uppercase font-semibold opacity-60" [routerLink]="['/single-conversation']">Customer 1</a>
-              </div>
-              <p class="list-col-wrap text-xs">
-                "Remaining Reason" became an instant hit, praised for its haunting sound and emotional depth. A viral performance brought it widespread recognition, making it one of Dio Lupa’s most iconic tracks.
-              </p>
-              <div class="status status-info animate-bounce"></div>
-            </li>
-
-            <li class="list-row">
-              <div>
-                <a class="text-xs uppercase font-semibold opacity-60" [routerLink]="['/single-conversation']">Customer 2</a>
-              </div>
-              <p class="list-col-wrap text-xs">
-                "Remaining Reason" became an instant hit, praised for its haunting sound and emotional depth. A viral performance brought it widespread recognition, making it one of Dio Lupa’s most iconic tracks.
-              </p>
-            </li>
-
-            <li class="list-row">
-              <div>
-                <a class="text-xs uppercase font-semibold opacity-60" [routerLink]="['/single-conversation']">Customer 3</a>
-              </div>
-              <p class="list-col-wrap text-xs">
-                "Remaining Reason" became an instant hit, praised for its haunting sound and emotional depth. A viral performance brought it widespread recognition, making it one of Dio Lupa’s most iconic tracks.
-              </p>
-            </li>
-
             @for (conversation of conversations$ | async; track conversation.id) {
               <li class="list-row">
                 <div>
                   <a class="text-xs uppercase font-semibold opacity-60" [routerLink]="['/single-conversation',conversation.id]">{{ conversation.customerFullName }}</a>
                 </div>
                 <p class="list-col-wrap text-xs">
-                  {{ conversation.lastMessage.content }}
+                  {{ conversation.lastMessageContent }}
                 </p>
                 @if (conversation.status == 'PENDING') {
                   <div class="status status-info animate-bounce"></div>
