@@ -12,8 +12,8 @@ export class MessageService {
 
   constructor(private httpClient: HttpClient) {}
 
-  public reply(message: Message): Observable<Message> {
-    return this.httpClient.post<Message>(`${this.pathService}`, message);
+  public reply(message: Message, conversationId: string): Observable<Message> {
+    return this.httpClient.post<Message>(`${this.pathService}/${conversationId}`, message);
   }
 
   public listByConversation(conversationId: string): Observable<Message[]> {
