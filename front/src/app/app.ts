@@ -1,12 +1,15 @@
 import {Component, inject, OnInit} from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router, RouterOutlet} from '@angular/router';
 import {AuthService} from './core/services/auth.service';
 import {SessionService} from './core/services/session.service';
 import {User} from './core/models/user';
+import {AsyncPipe} from '@angular/common';
+import {Title} from '@angular/platform-browser';
+import {filter, map} from 'rxjs';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, AsyncPipe],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -26,6 +29,6 @@ export class App implements OnInit {
       error: error => {
         this.sessionService.logOut();
       }
-    })
+    });
   }
 }

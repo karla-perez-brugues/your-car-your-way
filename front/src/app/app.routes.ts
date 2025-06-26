@@ -6,9 +6,29 @@ import {SingleConversation} from './features/conversation/single-conversation/si
 import {BackOffice} from './features/back-office/back-office';
 
 export const routes: Routes = [
-  { path: '', component: LoginComponent },
-  { path: 'front-office', component: FrontOffice },
-  { path: 'new-conversation', component: ConversationForm },
-  { path: 'back-office', component: BackOffice },
-  { path: 'single-conversation/:id', component: SingleConversation },
+  {
+    path: '',
+    component: LoginComponent,
+    title: 'Your Car Your Way'
+  },
+  {
+    path: 'front-office',
+    component: FrontOffice,
+    title: 'Your Car Your Way'
+  },
+  {
+    path: 'new-conversation',
+    component: ConversationForm,
+    title: 'Contactez le service client'
+  },
+  {
+    path: 'back-office',
+    component: BackOffice,
+    title: 'Back Office'
+  },
+  {
+    path: 'single-conversation/:id',
+    component: SingleConversation,
+    title: 'Conversation'
+  },
 ];
