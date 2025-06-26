@@ -1,18 +1,21 @@
-package com.projet_13.your_car_your_way.model;
+package com.p13.ycyw.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 @DiscriminatorValue("ADMIN")
 public class Admin extends User {
-    public Admin() {
-    }
-
     public Admin(String email, String phoneNumber, String lastName, String firstName, String password, LocalDateTime createdAt) {
         this.setEmail(email);
-        this.setPhoneNumber(phoneNumber);
         this.setLastName(lastName);
         this.setFirstName(firstName);
         this.setPassword(password);
