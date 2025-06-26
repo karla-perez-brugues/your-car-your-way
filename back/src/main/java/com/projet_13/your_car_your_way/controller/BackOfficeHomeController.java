@@ -5,6 +5,7 @@ import com.projet_13.your_car_your_way.model.Conversation;
 import com.projet_13.your_car_your_way.model.User;
 import com.projet_13.your_car_your_way.service.ConversationService;
 import org.apache.coyote.BadRequestException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,11 +17,8 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class BackOfficeHomeController {
 
-    private final ConversationService conversationService;
-
-    public BackOfficeHomeController(ConversationService conversationService) {
-        this.conversationService = conversationService;
-    }
+    @Autowired
+    private ConversationService conversationService;
 
     @GetMapping("")
     public ResponseEntity<List<ConversationDto>> home(Principal principal) throws BadRequestException {

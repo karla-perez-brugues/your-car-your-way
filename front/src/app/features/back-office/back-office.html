@@ -1,0 +1,24 @@
+<div class="hero bg-base-200 min-h-screen">
+  <div class="hero-content text-center">
+    <div class="max-w-md">
+      <h1 class="text-5xl font-bold">Back Office</h1>
+
+          <ul class="list bg-base-100 rounded-box shadow-md mt-5 text-left">
+            @for (conversation of conversations$ | async; track conversation.id) {
+              <li class="list-row">
+                <div>
+                  <a class="text-xs uppercase font-semibold opacity-60" [routerLink]="['/single-conversation',conversation.id]">{{ conversation.customerFullName }}</a>
+                </div>
+                <p class="list-col-wrap text-xs">
+                  {{ conversation.lastMessageContent }}
+                </p>
+                @if (conversation.status == 'PENDING') {
+                  <div class="status status-info animate-bounce"></div>
+                }
+              </li>
+            }
+          </ul>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="hero bg-base-200 min-h-screen">
+  <div class="hero-content flex-col lg:flex-row-reverse">
+    <div class="text-center lg:text-left">
+      <h1 class="text-5xl font-bold">Connexion</h1>
+      <p class="py-6">
+        Your Car Your Way
+      </p>
+    </div>
+    <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+      <div class="card-body">
+        <form class="fieldset" (ngSubmit)="submit()" [formGroup]="form">
+          <label class="label">Email</label>
+          <input type="email" class="input" placeholder="Email" formControlName="email" />
+          <label class="label">Mot de passe</label>
+          <input type="password" class="input" placeholder="Mot de passe" formControlName="password" />
+          <button class="btn btn-neutral mt-4" type="submit" [disabled]="!form.valid">Connexion</button>
+          @if (onError) {
+            <p class="error">Une erreur s'est produite</p>
+          }
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
