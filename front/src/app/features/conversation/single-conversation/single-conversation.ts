@@ -1,21 +1,22 @@
 import {Component, inject, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
-import {ConversationService} from '../../../core/services/conversation.service';
 import {Message} from '../../../core/models/message';
-import {ActivatedRoute} from '@angular/router';
-import {Conversation} from '../../../core/models/conversation';
+import {ActivatedRoute, Router} from '@angular/router';
 import {MessageService} from '../../../core/services/message.service';
 import {AuthService} from '../../../core/services/auth.service';
 import {User} from '../../../core/models/user';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {WebSocketService} from '../../../core/services/websocket.service';
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe, DatePipe} from '@angular/common';
+import {Conversation} from '../../../core/models/conversation';
+import {ConversationService} from '../../../core/services/conversation.service';
 
 @Component({
   selector: 'app-single-conversation',
   imports: [
     ReactiveFormsModule,
-    AsyncPipe
+    AsyncPipe,
+    DatePipe
   ],
   templateUrl: './single-conversation.html',
   styleUrl: './single-conversation.css'
@@ -27,16 +28,19 @@ export class SingleConversation implements OnInit, OnDestroy {
   private authService: AuthService = inject(AuthService);
   private webSocketService: WebSocketService = inject(WebSocketService);
   private ngZone: NgZone = inject(NgZone);
+  private router: Router = inject(Router);
+  private conversationService: ConversationService = inject(ConversationService);
 
+  public user$ = this.authService.me();
   public user!: User;
 
   public onError = false;
-  public title = 'Discussion avec le service client';
 
   public messagesBehaviorSubject: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
   public messages$: Observable<Message[]> = this.messagesBehaviorSubject.asObservable();
   public messages!: Message[];
   public conversationId: string;
+  public conversation$!: Observable<Conversation>;
 
   public form = this.fb.group({
     content: ['',  [Validators.required]]
@@ -48,8 +52,9 @@ export class SingleConversation implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.startWebSocket();
-    this.fetchMessages();
     this.fetchUser();
+    this.fetchMessages();
+    this.fetchConversation();
   }
 
   ngOnDestroy(): void {
@@ -75,19 +80,25 @@ export class SingleConversation implements OnInit, OnDestroy {
   private fetchMessages(): void {
     this.messageService
       .listByConversation(this.conversationId)
-      .subscribe(messages => {
-        this.messagesBehaviorSubject.next(messages);
-        this.messages = messages;
+      .subscribe({
+        next: messages => {
+          this.messagesBehaviorSubject.next(messages);
+          this.messages = messages;
+        },
+        error: () => {
+          this.router.navigate(['/']);
+        },
       });
   }
 
   private fetchUser(): void {
-    this.authService.me().subscribe(user => {
+    this.user$.subscribe(user => {
       this.user = user;
-      if (user.userType === 'ADMIN') {
-        this.title = 'Discussion avec le client';
-      }
     })
+  }
+
+  private fetchConversation(): void {
+    this.conversation$ = this.conversationService.show(this.conversationId);
   }
 
   private startWebSocket(): void {
@@ -102,8 +113,10 @@ export class SingleConversation implements OnInit, OnDestroy {
     });
 
     this.webSocketService.socket?.on('chatMessage', (message: Message) => {
+      message.createdAt = Date();
       this.ngZone.run(() => {
-        this.messagesBehaviorSubject.next([...this.messages, message]);
+        this.messages.push(message);
+        this.messagesBehaviorSubject.next(this.messages);
       });
     });
 

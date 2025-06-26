@@ -1,39 +1,37 @@
-<div class="hero bg-base-200 min-h-screen">
-  <div class="hero-content text-center">
-    <div class="max-w-md">
-      <h1 class="text-5xl font-bold">{{ title }}</h1>
-      <div class="card w-max bg-base-100 card-xl shadow-sm m-auto mt-5">
-        <div class="card-body">
-          <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" (click)="back()">✕</button>
-          <div class="chat">
-            @for (message of messages$ | async; track message.id) {
-              @if ((message.senderType === 'ADMIN' && user.userType === 'ADMIN') || (message.senderType === 'CUSTOMER' && user.userType === 'CUSTOMER')) {
-                <div class="chat chat-end">
-                  <div class="chat-bubble chat-bubble-secondary">
-                    {{ message.content }}
-                  </div>
-                </div>
-              } @else {
-                <div class="chat chat-start">
-                  <div class="chat-bubble">
-                    {{ message.content }}
-                  </div>
-                </div>
-              }
-            }
+<div class="card w-max bg-base-100 card-xl shadow-sm m-auto mt-5">
+  <div class="card-body">
+    <h3 class="font-bold">
+      @if ((user$ | async)?.userType === 'ADMIN') {
+        {{ (conversation$ | async)?.customerFullName }}
+      } @else {
+        Service client
+      }
+    </h3>
+    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" (click)="back()">✕</button>
+    <div class="chat overflow-y-auto max-h-96">
+      @for (message of messages$ | async; track message.id) {
+        @if ((message.senderType === 'ADMIN' && user.userType === 'ADMIN') || (message.senderType === 'CUSTOMER' && user.userType === 'CUSTOMER')) {
+          <div class="chat chat-end">
+            <div class="chat-bubble chat-bubble-primary">{{ message.content }}</div>
+            <div class="chat-footer opacity-50">{{ message.createdAt | date: 'dd MMMM, HH:mm' }}</div>
           </div>
-          <form [formGroup]="form" (ngSubmit)="submit()">
-            <div class="grid grid-cols-3 gap-2">
-              <textarea formControlName="content" name="content" class="textarea col-span-2" placeholder="Message" rows="1"></textarea>
-              <button class="btn btn-primary m-auto btn-circle" type="submit">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                  <path d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z" />
-                </svg>
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+        } @else {
+          <div class="chat chat-start">
+            <div class="chat-bubble">{{ message.content }}</div>
+            <div class="chat-footer opacity-50">{{ message.createdAt | date: 'dd MMMM, HH:mm' }}</div>
+          </div>
+        }
+      }
     </div>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="grid grid-cols-3 gap-2">
+        <textarea formControlName="content" name="content" class="textarea col-span-2" placeholder="Message" rows="1"></textarea>
+        <button class="btn btn-secondary m-auto btn-circle" type="submit">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+            <path d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z" />
+          </svg>
+        </button>
+      </div>
+    </form>
   </div>
 </div>

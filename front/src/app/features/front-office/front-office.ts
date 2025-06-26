@@ -1,9 +1,9 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {Conversation} from '../../core/models/conversation';
 import {FrontOfficeService} from '../../core/services/frontOffice.service';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {AsyncPipe} from '@angular/common';
 
 @Component({
@@ -17,8 +17,25 @@ import {AsyncPipe} from '@angular/common';
   standalone: true,
   styleUrl: './front-office.css'
 })
-export class FrontOffice {
-  private frontOfficeService: FrontOfficeService = inject(FrontOfficeService)
+export class FrontOffice implements OnInit {
+  private frontOfficeService: FrontOfficeService = inject(FrontOfficeService);
+  private router: Router = inject(Router);
 
-  public conversation$: Observable<Conversation|null> = this.frontOfficeService.home();
+  public conversationSubject = new BehaviorSubject<Conversation|null>(null);
+  public conversation$: Observable<Conversation|null> = this.conversationSubject.asObservable();
+
+  ngOnInit(): void {
+    this.fetchConversation();
+  }
+
+  private fetchConversation() {
+    this.frontOfficeService.home().subscribe({
+      next: conversation => {
+        this.conversationSubject.next(conversation);
+      },
+      error: () => {
+        this.router.navigate(['/']);
+      }
+    })
+  }
 }

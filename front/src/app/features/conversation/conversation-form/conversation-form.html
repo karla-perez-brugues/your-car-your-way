@@ -1,20 +1,14 @@
-<div class="hero bg-base-200 min-h-screen">
-  <div class="hero-content text-center">
-    <div class="max-w-md">
-      <div class="card w-max bg-base-100 card-xl shadow-sm">
-        <div class="card-body">
-          <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" (click)="back()">✕</button>
-          <form [formGroup]="form" (ngSubmit)="submit()">
-            <div class="col-span-full">
-              <label for="content" class="block text-sm/6 font-medium text-gray-900">Votre message</label>
-              <div class="mt-2">
-                <textarea formControlName="content" name="content" id="content" rows="3" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"></textarea>
-              </div>
-            </div>
-            <button class="btn btn-secondary mt-2" type="submit" [disabled]="!form.valid">Envoyer</button>
-          </form>
+<div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl mt-5">
+  <div class="card-body">
+    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" (click)="back()">✕</button>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="col-span-full">
+        <label for="content" class="block text-sm/6 font-medium text-gray-900">Contactez le service client</label>
+        <div class="mt-2">
+          <textarea formControlName="content" name="content" id="content" rows="3" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"></textarea>
         </div>
       </div>
-    </div>
+      <button class="btn btn-secondary mt-2" type="submit" [disabled]="!form.valid">Envoyer</button>
+    </form>
   </div>
 </div>

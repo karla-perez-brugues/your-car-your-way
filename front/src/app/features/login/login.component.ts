@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LoginRequest} from '../../core/interfaces/loginRequest.interface';
 import {AuthService} from '../../core/services/auth.service';
@@ -17,7 +17,7 @@ import {SessionService} from '../../core/services/session.service';
   standalone: true,
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private authService = inject(AuthService);
@@ -30,6 +30,16 @@ export class LoginComponent {
     password: ['',  [Validators.required, Validators.min(8)]]
   });
 
+  ngOnInit() {
+    this.sessionService.$isLogged().subscribe(isLogged => {
+      if (isLogged) {
+        this.authService.me().subscribe(user => {
+          this.redirectUser(user);
+        })
+      }
+    })
+  }
+
   public submit() {
     const loginRequest = this.form.value as LoginRequest;
 
@@ -40,17 +50,21 @@ export class LoginComponent {
           this.authService.me().subscribe({
             next: (user: User) => {
               this.sessionService.logIn(user);
-              if (user.userType === 'ADMIN') {
-                this.router.navigate(['/back-office']);
-              } else {
-                this.router.navigate(['/front-office']);
-              }
+              this.redirectUser(user);
             },
             error: () => this.onError = true,
           });
         },
         error: () => this.onError = true,
       });
+    }
+  }
+
+  private redirectUser(user: User) {
+    if (user.userType === 'ADMIN') {
+      this.router.navigate(['/back-office']);
+    } else {
+      this.router.navigate(['/front-office']);
     }
   }
 }
