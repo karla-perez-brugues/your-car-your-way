@@ -1,6 +1,6 @@
-package com.projet_13.your_car_your_way.repository;
+package com.p13.ycyw.repository;
 
-import com.projet_13.your_car_your_way.model.Admin;
+import com.p13.ycyw.model.Admin;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
