@@ -21,6 +21,7 @@ public class UserDto {
     private String password;
     private boolean admin;
     private UserType userType;
+    private boolean hasConversation;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

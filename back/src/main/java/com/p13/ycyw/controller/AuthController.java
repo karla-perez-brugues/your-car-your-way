@@ -76,6 +76,7 @@ public class AuthController {
         try {
             User user = (User) authentication.getPrincipal();
             UserDto userDto = modelMapper.map(user, UserDto.class);
+            userDto.setHasConversation(userService.hasConversation(user.getEmail()));
 
             return ResponseEntity.ok(userDto);
         } catch (Exception e) {
