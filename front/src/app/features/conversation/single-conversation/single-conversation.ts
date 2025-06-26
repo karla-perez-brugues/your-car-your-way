@@ -35,7 +35,6 @@ export class SingleConversation implements OnInit, OnDestroy {
   public user!: User;
 
   public onError = false;
-  public title!: string;
 
   public messagesBehaviorSubject: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
   public messages$: Observable<Message[]> = this.messagesBehaviorSubject.asObservable();
@@ -114,8 +113,10 @@ export class SingleConversation implements OnInit, OnDestroy {
     });
 
     this.webSocketService.socket?.on('chatMessage', (message: Message) => {
+      message.createdAt = Date();
       this.ngZone.run(() => {
-        this.messagesBehaviorSubject.next([...this.messages, message]);
+        this.messages.push(message);
+        this.messagesBehaviorSubject.next(this.messages);
       });
     });
 
