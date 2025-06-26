@@ -6,4 +6,5 @@ export interface User {
   password: string;
   admin: boolean;
   userType: string;
+  hasConversation: boolean;
 }

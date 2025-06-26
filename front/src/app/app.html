@@ -1,8 +1,17 @@
 <div class="hero bg-base-200 min-h-screen">
+  @if ($isLogged() | async) {
+    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" (click)="logout()">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+      </svg>
+    </button>
+  }
   <div class="hero-content flex-col">
     <div class="text-center">
       <img src="P13-icon.png" alt="icon project" class="chat-image w-2/5 m-auto"/>
-      <h1 class="text-5xl font-bold">Your Car Your Way</h1>
+      <a [routerLink]="['/']">
+        <h1 class="text-5xl font-bold">Your Car Your Way</h1>
+      </a>
       <router-outlet />
     </div>
   </div>

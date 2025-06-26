@@ -1,7 +1,7 @@
-import {Component, inject} from '@angular/core';
-import {RouterLink} from '@angular/router';
+import {Component, inject, OnInit} from '@angular/core';
+import {Router, RouterLink} from '@angular/router';
 import {BackOfficeService} from '../../core/services/backOffice.service';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {Conversation} from '../../core/models/conversation';
 import {AsyncPipe} from '@angular/common';
 
@@ -14,8 +14,25 @@ import {AsyncPipe} from '@angular/common';
   templateUrl: './back-office.html',
   styleUrl: './back-office.css'
 })
-export class BackOffice {
+export class BackOffice implements OnInit {
   private backOfficeService: BackOfficeService = inject(BackOfficeService);
+  private router: Router = inject(Router);
 
-  public conversations$: Observable<Conversation[]> = this.backOfficeService.home();
+  public conversationsSubject: BehaviorSubject<Conversation[]> = new BehaviorSubject<Conversation[]>([]);
+  public conversations$: Observable<Conversation[]> = this.conversationsSubject.asObservable();
+
+  ngOnInit() {
+    this.fetchConversations();
+  }
+
+  private fetchConversations() {
+    this.backOfficeService.home().subscribe({
+      next: conversations => {
+        this.conversationsSubject.next(conversations)
+      },
+      error: () => {
+        this.router.navigate(['/']);
+      }
+    })
+  }
 }

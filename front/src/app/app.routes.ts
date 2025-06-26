@@ -9,26 +9,26 @@ export const routes: Routes = [
   {
     path: '',
     component: LoginComponent,
-    title: 'Your Car Your Way'
+    title: 'Your Car Your Way',
   },
   {
     path: 'front-office',
     component: FrontOffice,
-    title: 'Your Car Your Way'
+    title: 'Your Car Your Way',
   },
   {
     path: 'new-conversation',
     component: ConversationForm,
-    title: 'Contactez le service client'
+    title: 'Contactez le service client',
   },
   {
     path: 'back-office',
     component: BackOffice,
-    title: 'Back Office'
+    title: 'Back Office',
   },
   {
     path: 'single-conversation/:id',
     component: SingleConversation,
-    title: 'Conversation'
+    title: 'Conversation',
   },
 ];

@@ -1,3 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
 @plugin "daisyui";
+
+@plugin "daisyui/theme" {
+  name: "ycyw";
+  default: true; /* set as default */
+  prefersdark: false; /* set as default dark mode (prefers-color-scheme:dark) */
+  color-scheme: light; /* color of browser-provided UI */
+
+  --color-primary: #235ec4;
+  --color-primary-content: oklch(98% 0.01 240);
+  --color-secondary: #ff3b00;
+  --color-secondary-content: oklch(98% 0.01 200);
+  --color-accent: #8dc7cc;
+  --color-accent-content: oklch(98% 0.01 160);
+}

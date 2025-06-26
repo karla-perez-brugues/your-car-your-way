@@ -1,6 +1,6 @@
 <p class="py-6">Louez une voiture en toute simplicité</p>
 @if (conversation$ | async) {
-  <button class="btn btn-primary" [routerLink]="['/single-conversation', (conversation$ | async)?.id]">Contacter le service client</button>
+  <button class="btn btn-secondary" [routerLink]="['/single-conversation', (conversation$ | async)?.id]">Contacter le service client</button>
 } @else {
-  <button class="btn btn-primary" [routerLink]="['/new-conversation']">Contacter le service client</button>
+  <button class="btn btn-secondary" [routerLink]="['/new-conversation']">Contacter le service client</button>
 }

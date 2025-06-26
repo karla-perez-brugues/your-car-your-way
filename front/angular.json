@@ -4,6 +4,9 @@
   "newProjectRoot": "projects",
   "projects": {
     "front-v4": {
+      "i18n": {
+        "sourceLocale": "fr-FR"
+      },
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -23,6 +26,9 @@
             ],
             "styles": [
               "src/styles.css"
+            ],
+            "polyfills": [
+              "@angular/localize/init"
             ]
           },
           "configurations": {
@@ -79,6 +85,9 @@
             ],
             "styles": [
               "src/styles.css"
+            ],
+            "polyfills": [
+              "@angular/localize/init"
             ]
           }
         }
