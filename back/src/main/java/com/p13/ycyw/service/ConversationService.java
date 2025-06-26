@@ -65,9 +65,13 @@ public class ConversationService {
     }
 
     public Optional<Conversation> findByCustomer(String customerEmail) throws NotFoundException {
-        Customer customer = customerRepository.findByEmail(customerEmail).orElseThrow(NotFoundException::new);
+        Optional<Customer> customer = customerRepository.findByEmail(customerEmail);
 
-        return conversationRepository.findByCustomer(customer);
+        if (customer.isPresent()) {
+            return conversationRepository.findByCustomer(customer.get());
+        }
+
+        return Optional.empty();
     }
 
     // todo: maybe this needs to move
