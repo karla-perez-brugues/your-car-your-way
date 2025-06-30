@@ -15,16 +15,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @DiscriminatorValue("CUSTOMER")
 public class Customer extends User {
-
     @OneToOne(mappedBy = "customer")
     private Conversation conversation;
-
-    public Customer(String email, String lastName, String firstName, String password, LocalDateTime createdAt) {
-        this.setEmail(email);
-        this.setLastName(lastName);
-        this.setFirstName(firstName);
-        this.setPassword(password);
-        this.setCreatedAt(createdAt);
-        this.setAdmin(false);
-    }
 }

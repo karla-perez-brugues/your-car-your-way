@@ -2,7 +2,7 @@ package com.p13.ycyw.service;
 
 
 import com.p13.ycyw.controller.payload.request.SignupRequest;
-import com.p13.ycyw.enums.UserType;
+import com.p13.ycyw.enums.UserRole;
 import com.p13.ycyw.exception.NotFoundException;
 import com.p13.ycyw.model.Conversation;
 import com.p13.ycyw.model.User;
@@ -31,7 +31,7 @@ public class UserService {
     }
 
     public void create(SignupRequest signUpRequest) {
-        if (signUpRequest.getUserType() == UserType.ADMIN) {
+        if (signUpRequest.getUserType() == UserRole.ADMIN) {
             this.adminService.create(signUpRequest);
         } else {
             this.customerService.create(signUpRequest);

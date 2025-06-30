@@ -41,7 +41,8 @@ public class MessageService {
     public List<Message> findAllByConversation(Long conversationId, String email) throws NotFoundException, BadRequestException {
         User user = userRepository.findByEmail(email).orElseThrow(NotFoundException::new);
         Conversation conversation = conversationRepository.findById(conversationId).orElseThrow(NotFoundException::new);
-        if (!conversation.getCustomer().equals(user) && !user.getAdmin()) {
+        boolean userIsAdmin = user.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+        if (!conversation.getCustomer().equals(user) && !userIsAdmin) {
             throw new BadRequestException();
         }
 
@@ -51,7 +52,7 @@ public class MessageService {
     public MessageDto entityToDto(Message message) {
         MessageDto messageDto = modelMapper.map(message, MessageDto.class);
         messageDto.setConversationId(message.getConversation().getId());
-        messageDto.setSenderType(message.getSender().getUserType());
+        messageDto.setSenderType(message.getSender().getRole().getName());
 
         return messageDto;
     }

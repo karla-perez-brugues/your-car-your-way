@@ -1,6 +1,6 @@
 package com.p13.ycyw.model;
 
-import com.p13.ycyw.enums.UserType;
+import com.p13.ycyw.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -8,9 +8,11 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -44,11 +46,12 @@ public abstract class User implements UserDetails {
     @Size(max = 120)
     private String password;
 
-    @NotNull
-    private Boolean admin;
-
     @OneToMany(mappedBy = "sender")
     private List<Message> messages;
+
+    @ManyToOne
+    @JoinColumn(name="role_id", nullable = false)
+    private Role role;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -63,19 +66,18 @@ public abstract class User implements UserDetails {
         return this.password;
     }
 
-    // TODO: move to service ?
-    public UserType getUserType() {
-        return admin ? UserType.ADMIN : UserType.CUSTOMER;
-    }
-
     @Override
     public String getUsername() {
         return this.email;
     }
 
+    // TODO: this may not work
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(role.getName()));
+
+        return authorities;
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.p13.ycyw.service;
 import com.p13.ycyw.dto.ConversationDto;
 import com.p13.ycyw.dto.MessageDto;
 import com.p13.ycyw.enums.ConversationStatus;
-import com.p13.ycyw.enums.UserType;
+import com.p13.ycyw.enums.UserRole;
 import com.p13.ycyw.exception.NotFoundException;
 import com.p13.ycyw.model.Conversation;
 import com.p13.ycyw.model.Customer;
@@ -42,7 +42,7 @@ public class ConversationService {
         Conversation conversation = new Conversation(customer);
         conversation = conversationRepository.save(conversation);
         messageService.create(messageDto, conversation, customer);
-        updateConversation(customer.getUserType(), conversation);
+        updateConversation(customer.getRole().getName(), conversation);
 
         return conversation;
     }
@@ -51,7 +51,7 @@ public class ConversationService {
         User user = userRepository.findByEmail(userEmail).orElseThrow(NotFoundException::new);
         Conversation conversation = conversationRepository.findById(messageDto.getConversationId()).orElseThrow(NotFoundException::new);
         messageService.create(messageDto, conversation, user);
-        updateConversation(user.getUserType(), conversation);
+        updateConversation(user.getRole().getName(), conversation);
 
         conversationRepository.save(conversation);
     }
@@ -99,12 +99,12 @@ public class ConversationService {
         return conversationDto;
     }
 
-    private void updateConversation(UserType senderType, Conversation conversation) {
+    private void updateConversation(String senderType, Conversation conversation) {
         switch (senderType) {
-            case ADMIN:
+            case "ROLE_ADMIN":
                 markAsReplied(conversation);
                 break;
-            case CUSTOMER:
+            case "ROLE_CUSTOMER":
                 markAsPending(conversation);
                 break;
         }
