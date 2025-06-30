@@ -69,7 +69,7 @@ export class SingleConversation implements OnInit, OnDestroy {
   public submit() {
     const message = this.form.value as Message;
     message.conversationId = Number(this.conversationId);
-    message.senderType = this.user.userType;
+    message.senderType = this.user.role;
 
     if (this.form.valid) {
       this.webSocketService.sendMessage(message);

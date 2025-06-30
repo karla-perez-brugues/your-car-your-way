@@ -3,8 +3,6 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
-  admin: boolean;
-  userType: string;
+  role: string;
   hasConversation: boolean;
 }

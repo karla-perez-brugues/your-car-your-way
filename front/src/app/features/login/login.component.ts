@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
   }
 
   private redirectUser(user: User) {
-    if (user.userType === 'ADMIN') {
+    if (user.role === 'ROLE_ADMIN') {
       this.router.navigate(['/back-office']);
     } else {
       this.router.navigate(['/front-office']);
