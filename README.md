@@ -1,5 +1,7 @@
 # Your Car Your Way
 
+This application is a POC of a user/customer service chat for a car rental business.
+
 ## Back
 
 Make sure Java is installed and check the version with `java -version`. This application requires Java 17.
