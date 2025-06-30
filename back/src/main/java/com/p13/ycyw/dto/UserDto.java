@@ -1,7 +1,6 @@
 package com.p13.ycyw.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.p13.ycyw.enums.UserType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,8 +18,7 @@ public class UserDto {
     private String firstName;
     @JsonIgnore
     private String password;
-    private boolean admin;
-    private UserType userType;
+    private String role;
     private boolean hasConversation;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

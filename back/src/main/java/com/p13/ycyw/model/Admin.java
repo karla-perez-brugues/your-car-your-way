@@ -14,12 +14,4 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @DiscriminatorValue("ADMIN")
 public class Admin extends User {
-    public Admin(String email, String phoneNumber, String lastName, String firstName, String password, LocalDateTime createdAt) {
-        this.setEmail(email);
-        this.setLastName(lastName);
-        this.setFirstName(firstName);
-        this.setPassword(password);
-        this.setCreatedAt(createdAt);
-        this.setAdmin(true);
-    }
 }

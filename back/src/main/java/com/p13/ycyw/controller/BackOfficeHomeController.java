@@ -8,6 +8,7 @@ import com.p13.ycyw.service.ConversationService;
 import com.p13.ycyw.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,13 +26,10 @@ public class BackOfficeHomeController {
     @Autowired
     private ConversationService conversationService;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("")
     public ResponseEntity<List<ConversationDto>> home(Principal principal) throws BadRequestException {
         User user = userService.findByEmail(principal.getName());
-
-        if (!user.getAdmin()) {
-            throw new BadRequestException();
-        }
 
         List<Conversation> conversations = conversationService.findAll();
         List<ConversationDto> conversationDtoList = conversations.stream().map(conversationService::entityToDto).toList();

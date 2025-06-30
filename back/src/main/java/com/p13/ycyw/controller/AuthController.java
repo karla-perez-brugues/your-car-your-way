@@ -77,6 +77,7 @@ public class AuthController {
             User user = (User) authentication.getPrincipal();
             UserDto userDto = modelMapper.map(user, UserDto.class);
             userDto.setHasConversation(userService.hasConversation(user.getEmail()));
+            userDto.setRole(user.getRole().getName());
 
             return ResponseEntity.ok(userDto);
         } catch (Exception e) {

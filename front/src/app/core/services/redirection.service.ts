@@ -9,7 +9,7 @@ export class RedirectionService {
   private router = inject(Router);
 
   public redirectUser(user: User) {
-    if (user.userType === 'ADMIN') {
+    if (user.role === 'ROLE_ADMIN') {
       this.router.navigate(['/back-office']);
     } else {
       this.router.navigate(['/front-office']);

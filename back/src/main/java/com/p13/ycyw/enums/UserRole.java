@@ -1,6 +1,6 @@
 package com.p13.ycyw.enums;
 
-public enum UserType {
+public enum UserRole {
     ADMIN,
     CUSTOMER
 }

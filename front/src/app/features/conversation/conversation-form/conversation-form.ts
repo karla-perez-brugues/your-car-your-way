@@ -1,11 +1,9 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Message} from '../../../core/models/message';
-import {FrontOfficeService} from '../../../core/services/frontOffice.service';
 import {ConversationService} from '../../../core/services/conversation.service';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../core/services/auth.service';
-import {User} from '../../../core/models/user';
 
 @Component({
   selector: 'app-conversation-form',
@@ -38,7 +36,6 @@ export class ConversationForm implements OnInit {
 
   public submit() {
     const message = this.form.value as Message;
-    console.log(message);
 
     if (this.form.valid) {
       this.conversationService.create(message).subscribe({
@@ -52,7 +49,7 @@ export class ConversationForm implements OnInit {
 
   private fetchUser() {
     this.authService.me().subscribe(user => {
-      if (user.admin || user.hasConversation) {
+      if (user.role === 'ROLE_ADMIN' || user.hasConversation) {
         this.router.navigate(['/']);
       }
     })

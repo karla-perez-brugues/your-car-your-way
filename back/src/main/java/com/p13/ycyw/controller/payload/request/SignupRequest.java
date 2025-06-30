@@ -1,6 +1,6 @@
 package com.p13.ycyw.controller.payload.request;
 
-import com.p13.ycyw.enums.UserType;
+import com.p13.ycyw.enums.UserRole;
 import jakarta.validation.constraints.*;
 
 public class SignupRequest {
@@ -21,7 +21,7 @@ public class SignupRequest {
     @Size(min = 6, max = 40)
     private String password;
 
-    private UserType userType;
+    private UserRole userType;
 
     public SignupRequest() {}
 
@@ -57,11 +57,11 @@ public class SignupRequest {
         this.password = password;
     }
 
-    public UserType getUserType() {
+    public UserRole getUserType() {
         return userType;
     }
 
-    public void setUserType(UserType userType) {
+    public void setUserType(UserRole userType) {
         this.userType = userType;
     }
 }

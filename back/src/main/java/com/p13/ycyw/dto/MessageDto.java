@@ -1,6 +1,6 @@
 package com.p13.ycyw.dto;
 
-import com.p13.ycyw.enums.UserType;
+import com.p13.ycyw.enums.UserRole;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +17,6 @@ public class MessageDto {
     @NotNull
     @Size(max = 2500)
     private String content;
-    private UserType senderType;
+    private String senderType;
     private LocalDateTime createdAt;
 }
